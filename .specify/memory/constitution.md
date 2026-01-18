@@ -1,18 +1,17 @@
 <!--
 Sync Impact Report
 
-- Version change: UNSET (template) 1.0.0
-- Modified principles: PLACEHOLDERS  concrete principles for mccPi
+- Version change: 1.0.0 → 2026.01.18
+- Modified principles: principles for mccPi
 - Added sections: Project Constraints, Development Workflow
 - Removed sections: None
 - Templates requiring updates:
-	- 5 Updated: .specify/templates/plan-template.md
-	- 5 Updated: .specify/templates/spec-template.md
-	- 5 Updated: .specify/templates/tasks-template.md
-	- 20 Pending: None
+	- 5 Updated: .specify/templates/plan-template.md
+	- 5 Updated: .specify/templates/spec-template.md
+	- 5 Updated: .specify/templates/tasks-template.md
+	- 20 Pending: None
 - Deferred TODOs:
-	- TODO(REPO_VERSIONING): Decide and document repo release/versioning policy (SemVer vs date-based).
-	- TODO(DEPLOY_SH_LOCATION): Add and maintain deploy.sh in-repo (or document canonical location) to satisfy the golden-path deploy ritual.
+	- None
 -->
 
 # mccPi (Mobile Command Center) Constitution
@@ -33,10 +32,8 @@ All validation and testing MUST start from the same deploy path used by users:
 - The first step MUST be fetching `deploy.sh` from GitHub via `curl`.
 - `deploy.sh` MUST clone the repo into `/opt` and run the deployment.
 - `deploy.sh` MUST support fresh installs and upgrades (idempotent, repeatable).
-- `deploy.sh` MUST be safe when run as root (the expected workflow is SSH  `sudo su`).
+- `deploy.sh` MUST be safe when run as root (the expected workflow is SSH → `sudo su`).
 - `deploy.sh` MUST provide clear, human-readable progress and failure messages.
-
-TODO(DEPLOY_SH_LOCATION): `deploy.sh` is required by this constitution; ensure it exists in this repo or document the canonical source.
 
 ### III. Web UI First (Port 80, Responsive)
 mccPi MUST provide a web interface on port 80 intended for phones and laptops.
@@ -72,7 +69,7 @@ Rationale: The tool may include transmit-capable modules; this ensures explicit 
 ## Development Workflow
 
 - Any change MUST be validated by running the golden-path deploy on a Raspberry Pi via SSH.
-	- Canonical connection: `ssh radio@mccpi.local`  `sudo su`  run the deploy ritual.
+	- Canonical connection: `ssh radio@mccpi.local` → `sudo su` → run the deploy ritual.
 - At minimum, validation MUST include a smoke check that:
 	- `deploy.sh` completes successfully,
 	- the web UI responds on port 80, and
@@ -88,11 +85,9 @@ Rationale: The tool may include transmit-capable modules; this ensures explicit 
 - Any PR that changes deployment behavior, module boundaries, port 80 web UI, or transmit gating MUST explicitly state compliance.
 - Amendments MUST be made by editing this file and updating the Sync Impact Report at the top.
 - Versioning policy:
-	- This constitution uses SemVer.
-	- MAJOR: backward-incompatible governance changes.
-	- MINOR: new principles/sections or materially expanded guidance.
-	- PATCH: clarifications/typos with no semantic change.
+	- This constitution uses date-based versions: `YYYY.MM.DD`.
+	- Amendments update **Last Amended** and set **Version** to the amendment date.
+	- Multiple amendments on the same day SHOULD append a sequence suffix: `YYYY.MM.DD.N`.
+	- The mccPi repository release/version policy is also date-based.
 
-TODO(REPO_VERSIONING): Decide and document how the mccPi repo itself is versioned and what constitutes a breaking change.
-
-**Version**: 1.0.0 | **Ratified**: 2026-01-18 | **Last Amended**: 2026-01-18
+**Version**: 2026.01.18 | **Ratified**: 2026-01-18 | **Last Amended**: 2026-01-18
