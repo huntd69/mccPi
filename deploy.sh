@@ -23,6 +23,26 @@ need_cmd() {
   command -v "$1" >/dev/null 2>&1 || die "Missing required command: $1"
 }
 
+ensure_git() {
+  if command -v git >/dev/null 2>&1; then
+    return 0
+  fi
+
+  log "git not found; attempting to install via apt-get"
+
+  if ! command -v apt-get >/dev/null 2>&1; then
+    die "git is required but apt-get is not available; please install git and re-run"
+  fi
+
+  export DEBIAN_FRONTEND=noninteractive
+
+  # Keep this minimal and safe to re-run.
+  apt-get update -y
+  apt-get install -y git ca-certificates
+
+  need_cmd git
+}
+
 require_root() {
   if [[ "${EUID:-$(id -u)}" -ne 0 ]]; then
     die "This script must be run as root (expected workflow: ssh radio@mccpi.local → sudo su)"
@@ -34,7 +54,7 @@ clone_or_update_repo() {
   local install_dir="$2"
   local branch="$3"
 
-  need_cmd git
+  ensure_git
 
   if [[ -d "${install_dir}/.git" ]]; then
     log "Updating existing repo in ${install_dir}"
